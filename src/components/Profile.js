@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import { GoogleLogout } from 'react-google-login';
 
 class Profile extends Component{
 
@@ -10,7 +11,13 @@ class Profile extends Component{
                 <img style={imageStyle} alt="profile image" src={imgUrl} width="50px" height="50px"/>
                 <div style={textStyle}>
                     <div style={nameStyle}>{name}</div>
-                    <div style={schoolStyle}>{school} | <span style={logoutStyle}>Logout</span></div>
+                    <div style={schoolStyle}>{school} | <span style={logoutStyle}><GoogleLogout
+                        clientId="344237568373-kjd001mj1ilh7lmitopt3mrh295gn5af.apps.googleusercontent.com"
+                        buttonText="Logout"
+                        // onLogoutSuccess={logout}
+                    >
+                        </GoogleLogout>
+                    </span></div>
                 </div>
             </div>
         );
