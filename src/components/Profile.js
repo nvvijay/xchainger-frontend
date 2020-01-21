@@ -3,19 +3,26 @@ import { GoogleLogout } from 'react-google-login';
 
 class Profile extends Component{
 
+    logout = async(response) => {
+        console.log("logout success!", response);
+        await localStorage.removeItem("loginToken");
+        await localStorage.removeItem("profile");
+        await window.location.reload();
+    };
+
     render(){
         const {name, imgUrl, school} = this.props.profileData;
-
         return (
             <div style={profileStyle}>
                 <img style={imageStyle} alt="profile image" src={imgUrl} width="50px" height="50px"/>
                 <div style={textStyle}>
                     <div style={nameStyle}>{name}</div>
-                    <div style={schoolStyle}>{school} | <span style={logoutStyle}><GoogleLogout
+                    <div style={schoolStyle}>{school} | <span style={logoutStyle}>
+                        <GoogleLogout
                         clientId="344237568373-kjd001mj1ilh7lmitopt3mrh295gn5af.apps.googleusercontent.com"
                         buttonText="Logout"
-                        // onLogoutSuccess={logout}
-                    >
+                        onLogoutSuccess={this.logout}
+                        >
                         </GoogleLogout>
                     </span></div>
                 </div>

@@ -10,24 +10,32 @@ class LoginComponent extends Component {
 
     componentDidMount() {
         console.log("check for existing login");
-        // this.setState({isSignedIn: true})
+        const loginToken = JSON.parse(localStorage.getItem("loginToken"));
+        if(loginToken){
+            this.setState({isSignedIn: true});
+        }else {
+            this.setState({isSignedIn: false});
+        }
+
     }
 
-    doAuthenticate = () => {
-        axios.get("http://192.168.0.184:1338/login").then(function (response) {
-            // handle success
-            console.log(response);
-        }).catch(function (error) {
-            // handle error
-            console.log(error);
-        }).finally(function () {
-            // always executed
-        });
-    };
+    // doAuthenticate = () => {
+    //     axios.get("http://192.168.0.184:1338/login").then(function (response) {
+    //         // handle success
+    //         console.log(response);
+    //     }).catch(function (error) {
+    //         // handle error
+    //         console.log(error);
+    //     }).finally(function () {
+    //         // always executed
+    //     });
+    // };
 
-    successCallback = (response) => {
+    successCallback = async (response) => {
         console.log(response);
-
+        await localStorage.setItem("loginToken", JSON.stringify(response.tokenObj));
+        await localStorage.setItem("profile", JSON.stringify(response.w3));
+        this.setState({isSignedIn: true});
     };
 
     render() {
@@ -41,8 +49,6 @@ class LoginComponent extends Component {
                     onSuccess={this.successCallback}
                     onFailure={this.responseGoogle}
                     cookiePolicy={'single_host_origin'}
-                    redirectUri={"http://localhost:1338/login"}
-                    uxMode="redirect"
                 />
             </header>
         </div>);
